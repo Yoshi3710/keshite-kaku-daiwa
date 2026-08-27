@@ -154,6 +154,90 @@ body.focus-mode .instruction-zone{display:none!important}
   .mode-tools .control-title,.compact-group .control-title{font-size:9px!important}
 }
 
+
+
+/* --- 2026-08-27 visual refinement: mobile action labels + warmer fifth-grade palette --- */
+:root{
+  --warm-coral:#e9785c;
+  --warm-orange:#f2a54a;
+  --fun-pink:#e98eaa;
+  --fun-green:#7caf78;
+  --fun-purple:#8178b8;
+  --warm-cream:#fff8ea;
+}
+
+/* Blue is kept as the Daiwa corporate accent; the surrounding UI uses warmer school-art colors. */
+html,body{background:linear-gradient(180deg,#fffdf8 0%,#f5faf7 55%,#eef8f8 100%)}
+.topbar{background:rgba(255,253,247,.94);border-bottom-color:#e8e3d8}
+.page-title h1{color:#66688a}
+.page-title .eyebrow{color:#478aa3}
+.page-summary{color:#6f747b}
+
+/* Product name gets a warm, playful accent without a drop shadow. */
+.product-name{
+  color:#333333;
+  display:block;
+  padding:0;
+  margin-left:0;
+  border-radius:0;
+  background:transparent;
+  border:0;
+}
+.brand-title{color:#596579}
+.brand-title span{color:#cf758e}
+
+/* Make the mode chooser feel like three art materials rather than three blue tabs. */
+.stepper.mode-switch{background:rgba(255,252,244,.97);border-color:#eadcbb}
+.stepper.mode-switch .step-btn[data-mode="erase"]{background:#fff8dd;border-color:#ead89e;color:#66583a}
+.stepper.mode-switch .step-btn[data-mode="crayon"]{background:#fff0f4;border-color:#edcad6;color:#77515f}
+.stepper.mode-switch .step-btn[data-mode="sponge"]{background:#eff8ec;border-color:#cfe3c8;color:#50694e}
+.stepper.mode-switch .step-btn[data-mode="erase"].active{background:#f7d879;border-color:#d7b956;color:#5b4717}
+.stepper.mode-switch .step-btn[data-mode="crayon"].active{background:#efa8bd;border-color:#d889a1;color:#603744}
+.stepper.mode-switch .step-btn[data-mode="sponge"].active{background:#a9d39f;border-color:#82b377;color:#365434}
+
+/* Reduce the all-blue feel while preserving clear tool grouping. */
+.canvas-zone{background:linear-gradient(135deg,#fff8e9 0%,#f8fcf4 43%,#f5fafc 76%,#fff1f5 100%);border-color:#e1e7dc}
+.operation-tools-box{border-color:#e6e4dc;background:rgba(255,255,252,.98)}
+.mode-tools .control-section{border-color:#e7e5dc!important;background:#fffefb!important}
+.mode-tools .control-title{background:#fff0c8;border-color:#edd89e;color:#6c5721}
+#crayonControls .control-title{background:#fce9ef;border-color:#eacbd5;color:#785363}
+#spongeControls .control-title{background:#eaf4e7;border-color:#cadec5;color:#4f6c4c}
+.orientation-group .control-title{background:#eeeaf9;border-color:#d9d2ee;color:#5f5982}
+.actions-group .control-title{background:#fff0e5;border-color:#edd5c4;color:#755643}
+.compact-group{border-color:#e5e2d9;background:rgba(255,255,252,.98)}
+
+/* Keep operational buttons centered and typographically stable at every width. */
+.compact-actions .action-btn,
+.compact-orientation .orientation-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  line-height:1.15;
+  min-width:0;
+}
+
+@media (max-width:620px){
+  /* Four action labels are too cramped in one line on phones; 2x2 keeps every label centered and readable. */
+  .compact-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:2px;
+    width:100%;
+  }
+  .compact-actions .action-btn{
+    width:100%;
+    min-width:0;
+    min-height:22px;
+    padding:2px 3px;
+    font-size:7.8px;
+    white-space:normal;
+    overflow-wrap:normal;
+    word-break:keep-all;
+  }
+  .actions-group{justify-content:flex-start}
+  .tool-row-primary{grid-template-columns:minmax(0,1.02fr) minmax(68px,.46fr) minmax(112px,1.42fr)}
+}
 </style>
 </head>
 <body>
