@@ -238,6 +238,12 @@ html,body{background:linear-gradient(180deg,#fffdf8 0%,#f5faf7 55%,#eef8f8 100%)
   .actions-group{justify-content:flex-start}
   .tool-row-primary{grid-template-columns:minmax(0,1.02fr) minmax(68px,.46fr) minmax(112px,1.42fr)}
 }
+
+/* 本番版からの指定変更：消す範囲の選択表示統一＋解除ボタンのみ色変更 */
+#guideButtons [data-guide].active,
+#guideButtons [data-guide].guide-active{background:#14384c!important;border-color:#14384c!important;color:#fff!important;}
+#clearGuide,#resetBtn{background:#e68a66!important;border-color:#cf7352!important;color:#fff!important;}
+#clearGuide:hover,#resetBtn:hover{background:#d97d5a!important;border-color:#c56849!important;}
 </style>
 </head>
 <body>
