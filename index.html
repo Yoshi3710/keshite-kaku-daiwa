@@ -239,6 +239,13 @@ html,body{background:linear-gradient(180deg,#fffdf8 0%,#f5faf7 55%,#eef8f8 100%)
   .tool-row-primary{grid-template-columns:minmax(0,1.02fr) minmax(68px,.46fr) minmax(112px,1.42fr)}
 }
 
+/* スマホのみ：縦・横とも、作画モードに関係なく作品全面を同じ大きさで表示 */
+@media (max-width:620px), (max-width:900px) and (max-height:500px){
+  .workspace{overflow:visible!important;}
+  .canvas-zone{height:auto!important;min-height:0!important;overflow:visible!important;}
+  .canvas-shell{margin:4px auto 70px!important;flex:0 0 auto!important;}
+}
+
 /* 本番版からの指定変更：消す範囲の選択表示統一＋解除ボタンのみ色変更 */
 #guideButtons [data-guide].active,
 #guideButtons [data-guide].guide-active{background:#14384c!important;border-color:#14384c!important;color:#fff!important;}
@@ -408,7 +415,7 @@ function canvasToLogical(x,y){return state.orientation==='portrait'?{x:x/SCALE,y
 function eventPoint(e){const r=canvas.getBoundingClientRect(); const x=(e.clientX-r.left)*(canvas.width/r.width),y=(e.clientY-r.top)*(canvas.height/r.height); return canvasToLogical(x,y)}
 function clampPoint(p){return {x:Math.max(0,Math.min(LOGICAL_W,p.x)),y:Math.max(0,Math.min(LOGICAL_H,p.y))}}
 function setupLayers(){const d=dims(); [canvas,black,paint].forEach(c=>{c.width=d.w;c.height=d.h}); blackCtx.setTransform(1,0,0,1,0,0);blackCtx.globalCompositeOperation='source-over';blackCtx.fillStyle='#000';blackCtx.fillRect(0,0,d.w,d.h);paintCtx.clearRect(0,0,d.w,d.h);fitCanvas();}
-function fitCanvas(){const zone=document.getElementById('canvasZone');if(!zone)return;const dock=document.getElementById('controls'),instructions=document.getElementById('instructionZone');const dockVisible=dock&&getComputedStyle(dock).display!=='none',instructionsVisible=instructions&&getComputedStyle(instructions).display!=='none';const reserved=(dockVisible?dock.offsetHeight:0)+(instructionsVisible?instructions.offsetHeight:0)+((dockVisible||instructionsVisible)?18:0);const zw=Math.max(120,zone.clientWidth-24),zh=Math.max(160,zone.clientHeight-24-reserved);const d=dims();const scale=Math.min(zw/d.w,zh/d.h,1);shell.style.width=(d.w*scale)+'px';shell.style.height=(d.h*scale)+'px';canvas.style.width='100%';canvas.style.height='100%';}
+function fitCanvas(){const zone=document.getElementById('canvasZone');if(!zone)return;const d=dims();const zw=Math.max(120,zone.clientWidth-24);if(window.innerWidth<=620||(window.innerWidth<=900&&window.innerHeight<=500)){const phoneLandscape=window.innerWidth>620&&window.innerHeight<=500;const maxBoardH=phoneLandscape?Math.max(220,window.innerHeight-90):Infinity;const scale=Math.min(zw/d.w,maxBoardH/d.h,1);shell.style.width=(d.w*scale)+'px';shell.style.height=(d.h*scale)+'px';canvas.style.width='100%';canvas.style.height='100%';return;}const dock=document.getElementById('controls'),instructions=document.getElementById('instructionZone');const dockVisible=dock&&getComputedStyle(dock).display!=='none',instructionsVisible=instructions&&getComputedStyle(instructions).display!=='none';const reserved=(dockVisible?dock.offsetHeight:0)+(instructionsVisible?instructions.offsetHeight:0)+((dockVisible||instructionsVisible)?18:0);const zh=Math.max(160,zone.clientHeight-24-reserved);const scale=Math.min(zw/d.w,zh/d.h,1);shell.style.width=(d.w*scale)+'px';shell.style.height=(d.h*scale)+'px';canvas.style.width='100%';canvas.style.height='100%';}
 function scheduleRender(){if(raf)return; raf=requestAnimationFrame(()=>{raf=0;renderView()})}
 function renderView(includeGuide=true){view.save();view.setTransform(1,0,0,1,0,0);view.fillStyle='#fff';view.fillRect(0,0,canvas.width,canvas.height);view.drawImage(paint,0,0);view.drawImage(black,0,0); if(includeGuide && state.mode==='erase' && state.guide)drawGuide(view,state.guide);view.restore()}
 function drawGuide(ctx,g){ctx.save();ctx.lineWidth=Math.max(2,1.2*SCALE);ctx.setLineDash([6*SCALE,4*SCALE]);ctx.strokeStyle='rgba(255,221,31,.98)';ctx.fillStyle='rgba(255,221,31,.06)';ctx.shadowColor='rgba(0,0,0,.38)';ctx.shadowBlur=2*SCALE;const p=guidePath(g);if(p){ctx.fill(p);ctx.stroke(p)}ctx.restore()}
